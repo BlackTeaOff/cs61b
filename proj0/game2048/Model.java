@@ -5,7 +5,7 @@ import java.util.Observable;
 
 
 /** The state of a game of 2048.
- *  @author TODO: YOUR NAME HERE
+ *  @author BlackTea
  */
 public class Model extends Observable {
     /** Current contents of the board. */
@@ -106,6 +106,68 @@ public class Model extends Observable {
      *    value, then the leading two tiles in the direction of motion merge,
      *    and the trailing tile does not.
      * */
+
+    public boolean dealColumn(int colNum) {
+        boolean changed = false;
+        int len = board.size();
+        int[] isMerged = new int[len]; // 存储该点是否合并过
+        Tile t;
+        for (int i = len - 2; i >= 0; i--) {
+            t = board.tile(colNum, i);
+            if (t == null) {
+                continue;
+            }
+            int j = i + 1; // 看上面的数
+            int count = 0; // 找有几个0
+            int allZero = 0;
+            while (j < len) {
+                if (board.tile(colNum, j) != null) {
+                    break;
+                }
+                if (j == len - 1) { // 最上面如果还是0
+                    allZero = 1;
+                }
+                count++;
+                j++;
+            }
+            if (count > 0) { // 上面至少有一个0
+                if (allZero == 1) { // 如果上面全是0, 就直接移动到上面
+                    board.move(colNum, i + count, t);
+                    changed = true;
+                    continue;
+                }
+                if (t.value() == board.tile(colNum, i + count + 1).value() && isMerged[i + count + 1] != 1) { // 上面不全是0(有数字), 而且值相等
+                    //if (isMerged[i + count + 1] != 1) { // 如果上面的没合并过, 可以合并(更新分数)
+                        board.move(colNum, i + count + 1, t);
+                        isMerged[i + count + 1] = 1;
+                        score += board.tile(colNum, i + count + 1).value();
+                        changed = true;
+                        continue;
+//                    } else { // 不能合并就移动到最远的0
+//                        board.move(colNum, i + count, t);
+//                        changed = true;
+//                        continue;
+//                    }
+                } else {
+                    board.move(colNum, i + count, t);
+                    changed = true;
+                    continue;
+                }
+            } else { // count = 0, 上面没有0, 就看能不能合并
+                if (t.value() == board.tile(colNum, i + 1).value()) { // 值相同
+                    if (isMerged[i + 1] != 1) { // 而且没合并过
+                        board.move(colNum, i + 1, t);
+                        isMerged[i + 1] = 1;
+                        score += board.tile(colNum, i + 1).value();
+                        changed = true;
+                        continue;
+                    }
+                }
+            }
+        }
+        return changed;
+    }
+
     public boolean tilt(Side side) {
         boolean changed;
         changed = false;
@@ -113,6 +175,16 @@ public class Model extends Observable {
         // TODO: Modify this.board (and perhaps this.score) to account
         // for the tilt to the Side SIDE. If the board changed, set the
         // changed local variable to true.
+        board.setViewingPerspective(side);
+
+        for (int i = 0; i < board.size(); i++) {
+            boolean temp = dealColumn(i);
+            if (temp) {
+                changed = true;
+            }
+        }
+
+        board.setViewingPerspective(Side.NORTH);
 
         checkGameOver();
         if (changed) {
@@ -138,6 +210,13 @@ public class Model extends Observable {
      * */
     public static boolean emptySpaceExists(Board b) {
         // TODO: Fill in this function.
+        for (int i = 0; i < b.size(); i++) {
+            for (int j = 0; j < b.size(); j++) {
+                if (b.tile(i, j) == null) {
+                    return true;
+                }
+            }
+        }
         return false;
     }
 
@@ -148,6 +227,15 @@ public class Model extends Observable {
      */
     public static boolean maxTileExists(Board b) {
         // TODO: Fill in this function.
+        for (int i = 0; i < b.size(); i++) {
+            for (int j = 0; j < b.size(); j++) {
+                if (b.tile(i, j) != null) {
+                    if (b.tile(i, j).value() == MAX_PIECE) {
+                        return true;
+                    }
+                }
+            }
+        }
         return false;
     }
 
@@ -159,6 +247,24 @@ public class Model extends Observable {
      */
     public static boolean atLeastOneMoveExists(Board b) {
         // TODO: Fill in this function.
+        if (emptySpaceExists(b)) {
+            return true;
+        }
+        for (int i = 0; i < b.size(); i++) {
+            for (int j = 0; j < b.size(); j++) {
+                if (i + 1 < b.size()) { // 右
+                    if (b.tile(i + 1, j).value() == b.tile(i, j).value()) {
+                        return true;
+                    }
+                }
+
+                if (j - 1 >= 0)  {
+                    if (b.tile(i, j - 1).value() == b.tile(i, j).value()) {
+                        return true;
+                    }
+                }
+            }
+        }
         return false;
     }
 
