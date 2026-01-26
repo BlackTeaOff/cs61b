@@ -1,0 +1,137 @@
+package deque;
+
+public class ArrayDeque<T> {
+    private T[] data;
+    private int size;
+    private int nextFirst;
+    private int nextLast;
+
+    public ArrayDeque() {
+        data = (T[]) new Object[8];
+        size = 0;
+        nextFirst = 0;
+        nextLast = 1;
+    }
+
+    private void resize() {
+        T[] newData = (T[]) new Object[data.length * 2];
+        int first = nextFirst + 1;
+        for (int i = 0; i < size; i++) {
+            if (first >= data.length) {
+                first = 0;
+            }
+            newData[i] = data[first];
+            first++;
+        }
+        data = newData;
+        nextFirst = data.length - 1;
+        nextLast = size;
+    }
+
+    public void addFirst(T item) {
+        if (size >= data.length) {
+            resize();
+        }
+        if (nextFirst < 0) {
+            nextFirst = data.length - 1;
+        }
+        data[nextFirst] = item;
+        size++;
+        nextFirst--;
+    }
+
+    public void addLast(T item) {
+        if (size >= data.length) {
+            resize();
+        }
+        if (nextLast >= data.length) {
+            nextLast = 0;
+        }
+        data[nextLast] = item;
+        size++;
+        nextLast++;
+    }
+
+    public boolean isEmpty() {
+        return size == 0;
+    }
+
+    public int size() {
+        return size;
+    }
+
+    public void printDeque() {
+        if (size == 0) {
+            return;
+        }
+        int first = nextFirst + 1;
+        for (int i = 0; i < size; i++) {
+            if (first >= data.length) {
+                first = 0;
+            }
+            System.out.print(data[first] + " ");
+            first++;
+        }
+        System.out.println();
+    }
+
+    public void reduce() {
+        T[] newData = (T[]) new Object[data.length / 2];
+        int first = nextFirst + 1;
+        for (int i = 0; i < size; i++) {
+            if (first >= data.length) {
+                first = 0;
+            }
+            newData[i] = data[first];
+            first++;
+        }
+        data = newData;
+        nextFirst = data.length - 1;
+        nextLast = size;
+    }
+
+    public T removeFirst() {
+        if (size == 0) {
+            return null;
+        }
+        if ((double)size / data.length <= 0.3) {
+            reduce();
+        }
+        size--;
+        nextFirst++;
+        if (nextFirst >= data.length) {
+            nextFirst = 0;
+        }
+        return data[nextFirst];
+    }
+
+    public T removeLast() {
+        if (size == 0) {
+            return null;
+        }
+        if ((double)size / data.length <= 0.3) {
+            reduce();
+        }
+        size--;
+        nextLast--;
+        if (nextLast < 0) {
+            nextLast = data.length - 1;
+        }
+        return data[nextLast];
+    }
+
+    public T get(int index) {
+        if (index >= size) {
+            return null;
+        }
+        int first = nextFirst + 1;
+        if (first > data.length) {
+            first = 0;
+        }
+        int arrayIndex = first + index;
+        if (arrayIndex >= data.length) {
+            arrayIndex = arrayIndex - data.length;
+        }
+        return data[arrayIndex];
+    }
+}
