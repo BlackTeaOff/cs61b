@@ -171,6 +171,7 @@ public class LinkedListDequeTest {
                  if (!list.isEmpty()) {
                     int randIndex = StdRandom.uniform(0, list.size());
                     assertEquals(list.get(randIndex), myList.get(randIndex));
+                    assertEquals(list.get(randIndex), myList.getRecursive(randIndex));
                  }
             }
         }

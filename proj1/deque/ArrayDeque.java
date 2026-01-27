@@ -14,7 +14,12 @@ public class ArrayDeque<T> {
     }
 
     private void resize() {
-        T[] newData = (T[]) new Object[data.length * 2];
+        T[] newData;
+        if ((double)size / data.length <= 0.25 && data.length > 8) {
+            newData = (T[]) new Object[data.length / 2];
+        } else {
+            newData = (T[]) new Object[data.length * 2];
+        }
         int first = nextFirst + 1;
         for (int i = 0; i < size; i++) {
             if (first >= data.length) {
@@ -75,27 +80,12 @@ public class ArrayDeque<T> {
         System.out.println();
     }
 
-    public void reduce() {
-        T[] newData = (T[]) new Object[data.length / 2];
-        int first = nextFirst + 1;
-        for (int i = 0; i < size; i++) {
-            if (first >= data.length) {
-                first = 0;
-            }
-            newData[i] = data[first];
-            first++;
-        }
-        data = newData;
-        nextFirst = data.length - 1;
-        nextLast = size;
-    }
-
     public T removeFirst() {
         if (size == 0) {
             return null;
         }
-        if ((double)size / data.length <= 0.3) {
-            reduce();
+        if ((double)size / data.length <= 0.25 && data.length > 8) {
+            resize();
         }
         size--;
         nextFirst++;
@@ -109,8 +99,8 @@ public class ArrayDeque<T> {
         if (size == 0) {
             return null;
         }
-        if ((double)size / data.length <= 0.3) {
-            reduce();
+        if ((double)size / data.length <= 0.25 && data.length > 8) {
+            resize();
         }
         size--;
         nextLast--;
@@ -125,7 +115,7 @@ public class ArrayDeque<T> {
             return null;
         }
         int first = nextFirst + 1;
-        if (first > data.length) {
+        if (first >= data.length) {
             first = 0;
         }
         int arrayIndex = first + index;
