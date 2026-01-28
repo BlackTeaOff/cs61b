@@ -1,7 +1,5 @@
 package deque;
 
-import jh61b.junit.In;
-
 import java.util.Iterator;
 
 public class LinkedListDeque<T> implements Iterable<T> {
@@ -162,27 +160,5 @@ public class LinkedListDeque<T> implements Iterable<T> {
             return true;
         }
         return false;
-    }
-
-    public static void main(String[] args) {
-        LinkedListDeque<Integer> lld = new LinkedListDeque<>();
-        lld.addLast(1);
-        lld.addLast(2);
-        lld.addLast(3);
-        lld.addLast(4);
-        lld.addLast(5);
-
-        for (int i : lld) {
-            System.out.println(i);
-        }
-        LinkedListDeque<Integer> lld1 = new LinkedListDeque<>();
-        lld1.addLast(1);
-        lld1.addLast(2);
-        lld1.addLast(3);
-        lld1.addLast(4);
-        lld1.addLast(5);
-        System.out.println(lld.equals(lld1));
-        LinkedListDeque<Integer> lld2 = new LinkedListDeque<>();
-        System.out.println(lld.equals(lld2));
     }
 }

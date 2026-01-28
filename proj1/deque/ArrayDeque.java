@@ -1,7 +1,5 @@
 package deque;
 
-import net.sf.saxon.ma.arrays.ArrayFunctionSet;
-
 import java.util.Iterator;
 
 public class ArrayDeque<T> implements Iterable<T> {
@@ -171,28 +169,5 @@ public class ArrayDeque<T> implements Iterable<T> {
             return true;
         }
         return false;
-    }
-
-    public static void main(String[] args) {
-        ArrayDeque<Integer> ad = new ArrayDeque<>();
-        ad.addLast(1);
-        ad.addLast(2);
-        ad.addLast(3);
-        ad.addLast(4);
-        for (int i : ad) {
-            System.out.println(i);
-        }
-
-        ArrayDeque<Integer> ad1 = new ArrayDeque<>();
-        ad1.addLast(1);
-        ad1.addLast(2);
-        ad1.addLast(3);
-        ad1.addLast(4);
-        ArrayDeque<String> ad2 = new ArrayDeque<>();
-        ArrayDeque<Integer> ad3 = new ArrayDeque<>();
-        System.out.println(ad.equals(ad1));
-        System.out.println(ad.equals(1));
-        System.out.println(ad.equals(ad2));
-        System.out.println(ad.equals(ad3));
     }
 }
