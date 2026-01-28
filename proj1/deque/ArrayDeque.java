@@ -1,6 +1,10 @@
 package deque;
 
-public class ArrayDeque<T> {
+import net.sf.saxon.ma.arrays.ArrayFunctionSet;
+
+import java.util.Iterator;
+
+public class ArrayDeque<T> implements Iterable<T> {
     private T[] data;
     private int size;
     private int nextFirst;
@@ -123,5 +127,72 @@ public class ArrayDeque<T> {
             arrayIndex = arrayIndex - data.length;
         }
         return data[arrayIndex];
+    }
+
+    private class ArrayDequeIterator implements Iterator<T> {
+        private int wizPos;
+
+        public ArrayDequeIterator() {
+            wizPos = 0;
+        }
+
+        public boolean hasNext() {
+            return wizPos < size;
+        }
+
+        public T next() {
+            T item = get(wizPos);
+            wizPos++;
+            return item;
+        }
+    }
+
+    public Iterator<T> iterator() {
+        return new ArrayDequeIterator();
+    }
+
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+
+        if (o instanceof ArrayDeque) {
+            ArrayDeque<?> other = (ArrayDeque<?>) o;
+
+            if (size != other.size()) {
+                return false;
+            }
+
+            for (int i = 0; i < size; i++) {
+                if (!get(i).equals(other.get(i))) {
+                    return false;
+                }
+            }
+            return true;
+        }
+        return false;
+    }
+
+    public static void main(String[] args) {
+        ArrayDeque<Integer> ad = new ArrayDeque<>();
+        ad.addLast(1);
+        ad.addLast(2);
+        ad.addLast(3);
+        ad.addLast(4);
+        for (int i : ad) {
+            System.out.println(i);
+        }
+
+        ArrayDeque<Integer> ad1 = new ArrayDeque<>();
+        ad1.addLast(1);
+        ad1.addLast(2);
+        ad1.addLast(3);
+        ad1.addLast(4);
+        ArrayDeque<String> ad2 = new ArrayDeque<>();
+        ArrayDeque<Integer> ad3 = new ArrayDeque<>();
+        System.out.println(ad.equals(ad1));
+        System.out.println(ad.equals(1));
+        System.out.println(ad.equals(ad2));
+        System.out.println(ad.equals(ad3));
     }
 }
