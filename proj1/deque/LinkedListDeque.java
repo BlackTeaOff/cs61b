@@ -175,6 +175,7 @@ public class LinkedListDeque<T> implements Iterable<T>, Deque<T> {
                     return false;
                 }
                 index++;
+                temp = temp.next;
             }
             return true;
         }
