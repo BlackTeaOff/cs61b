@@ -25,16 +25,4 @@ public class MaxArrayDeque<T> extends ArrayDeque<T> {
         }
         return get(maxDex);
     }
-
-    public static void main(String[] args) {
-        MaxArrayDeque<Integer> mad = new MaxArrayDeque<>(new IntComparator());
-        mad.addFirst(1);
-        mad.addFirst(2);
-        mad.addFirst(5);
-        mad.addFirst(8);
-        mad.addFirst(2);
-        mad.addFirst(3);
-
-        System.out.println(mad.max());
-    }
 }

@@ -123,7 +123,7 @@ public class LinkedListDeque<T> implements Iterable<T>, Deque<T> {
     private class LinkedListDequeIterator implements Iterator<T> {
         private int wizPos;
 
-        public LinkedListDequeIterator() {
+        LinkedListDequeIterator() {
             wizPos = 0;
         }
 
@@ -150,19 +150,31 @@ public class LinkedListDeque<T> implements Iterable<T>, Deque<T> {
         if (this == o) {
             return true;
         }
-        if (o instanceof LinkedListDeque) {
-            LinkedListDeque<?> other = (LinkedListDeque<?>) o;
-            if (size != other.size) {
+        if (o instanceof Deque) {
+            Deque<?> other = (Deque<?>) o;
+            if (size != other.size()) {
                 return false;
             }
+            if (o instanceof LinkedListDeque) {
+                LinkedListDeque<?> otherLLD = (LinkedListDeque<?>) o;
+                Node temp = sentinel.next;
+                Node temp1 = (Node) otherLLD.sentinel.next;
+                while (temp != sentinel) {
+                    if (!temp.data.equals(temp1.data)) {
+                        return false;
+                    }
+                    temp = temp.next;
+                    temp1 = temp1.next;
+                }
+                return true;
+            }
             Node temp = sentinel.next;
-            Node temp1 = (Node) other.sentinel.next;
+            int index = 0;
             while (temp != sentinel) {
-                if (!temp.data.equals(temp1.data)) {
+                if (!temp.data.equals(other.get(index))) {
                     return false;
                 }
-                temp = temp.next;
-                temp1 = temp1.next;
+                index++;
             }
             return true;
         }
