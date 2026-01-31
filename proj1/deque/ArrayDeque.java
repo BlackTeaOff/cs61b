@@ -2,7 +2,7 @@ package deque;
 
 import java.util.Iterator;
 
-public class ArrayDeque<T> implements Iterable<T> {
+public class ArrayDeque<T> implements Iterable<T>, Deque<T> {
     private T[] data;
     private int size;
     private int nextFirst;
@@ -35,6 +35,7 @@ public class ArrayDeque<T> implements Iterable<T> {
         nextLast = size;
     }
 
+    @Override
     public void addFirst(T item) {
         if (size >= data.length) {
             resize();
@@ -47,6 +48,7 @@ public class ArrayDeque<T> implements Iterable<T> {
         nextFirst--;
     }
 
+    @Override
     public void addLast(T item) {
         if (size >= data.length) {
             resize();
@@ -59,14 +61,17 @@ public class ArrayDeque<T> implements Iterable<T> {
         nextLast++;
     }
 
+    @Override
     public boolean isEmpty() {
         return size == 0;
     }
 
+    @Override
     public int size() {
         return size;
     }
 
+    @Override
     public void printDeque() {
         if (size == 0) {
             return;
@@ -82,6 +87,7 @@ public class ArrayDeque<T> implements Iterable<T> {
         System.out.println();
     }
 
+    @Override
     public T removeFirst() {
         if (size == 0) {
             return null;
@@ -97,6 +103,7 @@ public class ArrayDeque<T> implements Iterable<T> {
         return data[nextFirst];
     }
 
+    @Override
     public T removeLast() {
         if (size == 0) {
             return null;
@@ -112,6 +119,7 @@ public class ArrayDeque<T> implements Iterable<T> {
         return data[nextLast];
     }
 
+    @Override
     public T get(int index) {
         if (index >= size) {
             return null;
@@ -134,10 +142,12 @@ public class ArrayDeque<T> implements Iterable<T> {
             wizPos = 0;
         }
 
+        @Override
         public boolean hasNext() {
             return wizPos < size;
         }
 
+        @Override
         public T next() {
             T item = get(wizPos);
             wizPos++;
@@ -145,10 +155,12 @@ public class ArrayDeque<T> implements Iterable<T> {
         }
     }
 
+    @Override
     public Iterator<T> iterator() {
         return new ArrayDequeIterator();
     }
 
+    @Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;

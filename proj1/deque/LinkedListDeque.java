@@ -1,8 +1,10 @@
 package deque;
 
+import afu.org.checkerframework.checker.oigj.qual.O;
+
 import java.util.Iterator;
 
-public class LinkedListDeque<T> implements Iterable<T> {
+public class LinkedListDeque<T> implements Iterable<T>, Deque<T> {
     private class Node {
         public T data;
         public Node prev;
@@ -25,6 +27,7 @@ public class LinkedListDeque<T> implements Iterable<T> {
         size = 0;
     }
 
+    @Override
     public void addFirst(T item) {
         Node temp = new Node(item, sentinel, sentinel.next);
         sentinel.next.prev = temp;
@@ -32,6 +35,7 @@ public class LinkedListDeque<T> implements Iterable<T> {
         size++;
     }
 
+    @Override
     public void addLast(T item) {
         Node temp = new Node(item, sentinel.prev, sentinel);
         sentinel.prev.next = temp;
@@ -39,14 +43,17 @@ public class LinkedListDeque<T> implements Iterable<T> {
         size++;
     }
 
+    @Override
     public boolean isEmpty() {
         return size == 0;
     }
 
+    @Override
     public int size() {
         return size;
     }
 
+    @Override
     public void printDeque() {
         Node temp = sentinel.next;
         while (temp != sentinel) {
@@ -57,6 +64,7 @@ public class LinkedListDeque<T> implements Iterable<T> {
         System.out.println();
     }
 
+    @Override
     public T removeFirst() {
         if (isEmpty()) {
             return null;
@@ -68,6 +76,7 @@ public class LinkedListDeque<T> implements Iterable<T> {
         return temp.data;
     }
 
+    @Override
     public T removeLast() {
         if (isEmpty()) {
             return null;
@@ -79,6 +88,7 @@ public class LinkedListDeque<T> implements Iterable<T> {
         return temp.data;
     }
 
+    @Override
     public T get(int index) {
         if (index >= size || index < 0) {
             return null;
@@ -124,10 +134,12 @@ public class LinkedListDeque<T> implements Iterable<T> {
             wizPos = 0;
         }
 
+        @Override
         public boolean hasNext() {
             return wizPos < size;
         }
 
+        @Override
         public T next() {
             T item = get(wizPos);
             wizPos++;
@@ -135,10 +147,12 @@ public class LinkedListDeque<T> implements Iterable<T> {
         }
     }
 
+    @Override
     public Iterator<T> iterator() {
         return new LinkedListDequeIterator();
     }
 
+    @Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;
