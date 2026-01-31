@@ -17,7 +17,7 @@ public class ArrayDeque<T> implements Iterable<T>, Deque<T> {
 
     private void resize() {
         T[] newData;
-        if ((double)size / data.length <= 0.25 && data.length > 8) {
+        if ((double) size / data.length <= 0.25 && data.length > 8) {
             newData = (T[]) new Object[data.length / 2];
         } else {
             newData = (T[]) new Object[data.length * 2];
@@ -62,11 +62,6 @@ public class ArrayDeque<T> implements Iterable<T>, Deque<T> {
     }
 
     @Override
-    public boolean isEmpty() {
-        return size == 0;
-    }
-
-    @Override
     public int size() {
         return size;
     }
@@ -92,7 +87,7 @@ public class ArrayDeque<T> implements Iterable<T>, Deque<T> {
         if (size == 0) {
             return null;
         }
-        if ((double)size / data.length <= 0.25 && data.length > 8) {
+        if ((double) size / data.length <= 0.25 && data.length > 8) {
             resize();
         }
         size--;
@@ -108,7 +103,7 @@ public class ArrayDeque<T> implements Iterable<T>, Deque<T> {
         if (size == 0) {
             return null;
         }
-        if ((double)size / data.length <= 0.25 && data.length > 8) {
+        if ((double) size / data.length <= 0.25 && data.length > 8) {
             resize();
         }
         size--;
@@ -138,7 +133,7 @@ public class ArrayDeque<T> implements Iterable<T>, Deque<T> {
     private class ArrayDequeIterator implements Iterator<T> {
         private int wizPos;
 
-        public ArrayDequeIterator() {
+        ArrayDequeIterator() {
             wizPos = 0;
         }
 

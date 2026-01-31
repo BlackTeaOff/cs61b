@@ -1,16 +1,14 @@
 package deque;
 
-import afu.org.checkerframework.checker.oigj.qual.O;
-
 import java.util.Iterator;
 
 public class LinkedListDeque<T> implements Iterable<T>, Deque<T> {
     private class Node {
-        public T data;
-        public Node prev;
-        public Node next;
+        private T data;
+        private Node prev;
+        private Node next;
 
-        public Node(T i, Node p, Node n) {
+        Node(T i, Node p, Node n) {
             data = i;
             prev = p;
             next = n;
@@ -41,11 +39,6 @@ public class LinkedListDeque<T> implements Iterable<T>, Deque<T> {
         sentinel.prev.next = temp;
         sentinel.prev = temp;
         size++;
-    }
-
-    @Override
-    public boolean isEmpty() {
-        return size == 0;
     }
 
     @Override
@@ -104,10 +97,10 @@ public class LinkedListDeque<T> implements Iterable<T>, Deque<T> {
             return temp.data;
         } else {
             Node temp = sentinel.prev;
-            int size = this.size - 1;
-            while (size != index) {
+            int siz = this.size - 1;
+            while (siz != index) {
                 temp = temp.prev;
-                size--;
+                siz--;
             }
             return temp.data;
         }

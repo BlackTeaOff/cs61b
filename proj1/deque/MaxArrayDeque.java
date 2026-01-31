@@ -12,13 +12,13 @@ public class MaxArrayDeque<T> extends ArrayDeque<T> {
         return max(c);
     }
 
-    public T max(Comparator<T> c) {
+    public T max(Comparator<T> comparator) {
         if (isEmpty()) {
             return null;
         }
         int maxDex = 0;
         for (int i = 1; i < size(); i++) {
-            int cmp = c.compare(get(i), get(maxDex));
+            int cmp = comparator.compare(get(i), get(maxDex));
             if (cmp > 0) {
                 maxDex = i;
             }
@@ -26,7 +26,7 @@ public class MaxArrayDeque<T> extends ArrayDeque<T> {
         return get(maxDex);
     }
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
         MaxArrayDeque<Integer> mad = new MaxArrayDeque<>(new IntComparator());
         mad.addFirst(1);
         mad.addFirst(2);
